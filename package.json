@@ -1,0 +1,35 @@
+{
+  "name": "db_management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "2.8.1",
+    "express": "^4.17.1",
+    "mariadb": "^2.5.3",
+    "multer": "1.4.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "node-excel-stream": "1.2.1",
+    "read-excel-file": "^5.1.0",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adityam789/DB_Management.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adityam789/DB_Management/issues"
+  },
+  "homepage": "https://github.com/adityam789/DB_Management#readme"
+}
