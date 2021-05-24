@@ -4,6 +4,9 @@ const URL = "http://localhost:8090/get-cfiles/";
 const fs = require("fs");
 const readXlsxFile = require('read-excel-file/node');
 const sheetsSchema = require('./scheduleTemplateSchema');
+const sqlInsert = require('sqlInsertController');
+const { insertIntoGuests } = require("./sqlInsertController");
+const { Schedule } = require("../scheduleTemplateSchema");
 
 const uploadFile = async (req, res) => {
   try {
@@ -20,15 +23,28 @@ const uploadFile = async (req, res) => {
       }
     })
 
+    // TODO: excel error thingy
     // Readable Stream.
-    readXlsxFile(fs.createReadStream('./public/uploads/'+req.file.originalname), {schema: sheetsSchema.Guest, sheet: "Guest"}).then(({ rows, errors }) => {
+    ["Guests","Stages"].forEach(elem => 
+      readXlsxFile(fs.createReadStream('./public/uploads/'+req.file.originalname), {schema: sheetsSchema[elem], sheet: elem}).then(({ rows, errors }) => {
+        if(errors.length != 0){
+          res.status(500).send({
+            message: `Error occured: The excel ${elem} has incorrect format`,
+          });
+        }  
+        sqlInsert.insertIntoTable(elem)(rows);
+      })
+    )
+
+    readXlsxFile(fs.createReadStream('./public/uploads/'+req.file.originalname), {schema: sheetsSchema.Schedule, sheet: "Schedule"}).then(({ rows, errors }) => {
       if(errors.length != 0){
         res.status(500).send({
-          message: `Error occured: The excel sheet Guest has incorrect format`,
+          message: `Error occured: The excel sheet Schedule has incorrect format`,
         });
       }  
-      
-    })
+      sqlInsert.insertIntoTable("Schedule")(rows);
+      sqlInsert.insertIntoTable("ArtistSchedule")(rows);
+    })  
 
     res.status(200).send({
       message: "File uploaded successfully: " + req.file.originalname,

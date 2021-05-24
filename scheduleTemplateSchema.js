@@ -162,4 +162,4 @@ function ValidateEmail(input) {
     } 
 }
 
-module.exports = {Guest: guestSchema, Stages: stageSchema, Schedule: scheduleScheme};
+module.exports = {Guests: guestSchema, Stages: stageSchema, Schedule: scheduleScheme};
