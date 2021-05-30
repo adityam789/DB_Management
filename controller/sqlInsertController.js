@@ -1,11 +1,11 @@
 var mysql = require("mysql");
-const errorHandling = require('../ErrorHandling/errorHandling');
+const errorHandling = require("../ErrorHandling/errorHandling");
 var pool = mysql.createPool({
   connectionLimit: 10,
-  host            : process.env.DB_HOST || "localhost",
-  user            : process.env.DB_USER || "root",
-  password        : process.env.DB_PASS || 'shubham1',
-  database        : process.env.DB_NAME || 'Events',
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS || "shubham1",
+  database: process.env.DB_NAME || "Events",
 });
 
 // Each are for creation of tables
@@ -25,33 +25,23 @@ const query1 =
   "TimeZone varchar(255) NOT NULL);";
 
 const query2 =
-  "CREATE TABLE IF NOT EXISTS Stages (" +
-  "StageID int NOT NULL PRIMARY KEY," +
-  "DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "UserCreated varchar(255) NOT NULL," +
-  "DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
-  "UserModified varchar(255) NOT NULL," +
-  "Name varchar(255) NOT NULL," +
-  "Date date NOT NULL," +
-  "Time time NOT NULL," +
-  "DurationHours int NOT NULL," +
-  "DurationMinutes int NOT NULL," +
-  "Description varchar(255) NOT NULL);";
+`CREATE TABLE IF NOT EXISTS Stages ( 
+  StageID int NOT NULL PRIMARY KEY,  
+  DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UserCreated varchar(255) NOT NULL,  
+  DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UserModified varchar(255) NOT NULL,
+  Name varchar(255) NOT NULL,
+  Date date NOT NULL,  
+  Time time NOT NULL,
+  DurationHours int NOT NULL, 
+  DurationMinutes int NOT NULL,
+  Description varchar(255) NOT NULL);`;
 
-const query3 =
-  "CREATE TABLE IF NOT EXISTS Schedule (" +
-  "ScheduleID int NOT NULL PRIMARY KEY," +
-  "DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-  "UserCreated varchar(255) NOT NULL," +
-  "DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
-  "UserModified varchar(255) NOT NULL," +
-  "Stage int NOT NULL," +
-  "Name varchar(255) NOT NULL," +
-  "Description varchar(255) NOT NULL," +
-  "StartTime time NOT NULL," +
-  "EndTime time NOT NULL," +
-  "ReportingTime time NOT NULL," +
-  "FOREIGN KEY (Stage) REFERENCES Stages(StageID));";
+const query3 = `CREATE TABLE IF NOT EXISTS Schedule (ScheduleID int NOT NULL PRIMARY KEY, DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+  UserCreated varchar(255) NOT NULL, DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL, Stage int NOT NULL, 
+  Name varchar(255) NOT NULL, Description varchar(255) NOT NULL, StartTime time NOT NULL, EndTime time NOT NULL, ReportingTime time NOT NULL, 
+  FOREIGN KEY (Stage) REFERENCES Stages(StageID));`;
 
 const query4 = `CREATE TABLE IF NOT EXISTS ArtistSchedule (
     ID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -196,7 +186,7 @@ const insertIntoSchedule = (rows) => {
       });
     });
   }
-  return new errorHandling.Success("Completed")
+  return new errorHandling.Success("Completed");
 };
 
 // TODO: if artist in ArtistSchedule is incorrect/ GuestID of that doesnt exist
@@ -207,7 +197,7 @@ const insertIntoArtistSchedule = (rows) => {
     for (let j = 6; j < values.length; j++) {
       let fn = values[j].split(" ");
       let guestId = -1;
-      k += 1;  
+      k += 1;
       function fetch(callBack) {
         pool.query(
           "SELECT GuestID from Guests where FirstName = ? and LastName = ?",
@@ -225,8 +215,7 @@ const insertIntoArtistSchedule = (rows) => {
         );
       }
       fetch(function (guestId) {
-        const insertQuery =
-          `INSERT INTO ArtistSchedule(UserCreated,UserModified,ScheduleID,ArtistID) VALUE("Me","Me",?,?)`;
+        const insertQuery = `INSERT INTO ArtistSchedule(UserCreated,UserModified,ScheduleID,ArtistID) VALUE("Me","Me",?,?)`;
 
         pool.getConnection(function (err, connection) {
           if (err) throw err; // not connected!
@@ -234,7 +223,7 @@ const insertIntoArtistSchedule = (rows) => {
           // Use the connection
           connection.query(
             insertQuery,
-            [i+1, guestId],
+            [i + 1, guestId],
             function (error, results, fields) {
               // When done with the connection, release it.
               connection.release();
