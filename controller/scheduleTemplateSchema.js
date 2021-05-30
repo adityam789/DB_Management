@@ -1,3 +1,5 @@
+Time = String
+
 const guestSchema = {
     'First Name': {
         prop: 'FirstName',

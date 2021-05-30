@@ -7,7 +7,7 @@ var pool  = mysql.createPool({
   database        : 'Events'
 });
 
-pool.query('CREATE TABLE IF NOT EXISTS Categories (CategoryName varchar(255))', function (error, results, fields) {
+pool.query('CREATE TABLE IF NOT EXISTS Categories (ID int AUTO_INCREMENT primary key, CategoryName varchar(255), isDeleted int default(0))', function (error, results, fields) {
     if (error) throw error;
 });
 
