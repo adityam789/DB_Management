@@ -9,7 +9,7 @@ var pool = mysql.createPool({
 });
 
 // Each are for creation of tables
-const query1 = `CREATE TABLE IF NOT EXISTS Guests (GuestID int NOT NULL PRIMARY KEY, DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserCreated varchar(255) NOT NULL, DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL,  FirstName varchar(255) NOT NULL, LastName varchar(255) NOT NULL, Email varchar(255) NOT NULL, About varchar(255) NOT NULL, Role varchar(255) NOT NULL, Organization varchar(255) NOT NULL,  TimeZone varchar(255) NOT NULL); `;
+const query1 = `CREATE TABLE IF NOT EXISTS guests (guestid INT NOT NULL PRIMARY KEY, datecreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, usercreated VARCHAR(255) NOT NULL, datemodified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, usermodified VARCHAR(255) NOT NULL,  firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, about VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, organization VARCHAR(255) NOT NULL,  timezone VARCHAR(255) NOT NULL);`;
 
 const query2 =
 `CREATE TABLE IF NOT EXISTS Stages ( 
