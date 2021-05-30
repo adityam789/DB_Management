@@ -2,10 +2,10 @@ var mysql = require("mysql");
 const errorHandling = require('../ErrorHandling/errorHandling');
 var pool = mysql.createPool({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "shubham1",
-  database: "Events",
+  host            : process.env.DB_HOST || "localhost",
+  user            : process.env.DB_USER || "root",
+  password        : process.env.DB_PASS || 'shubham1',
+  database        : process.env.DB_NAME || 'Events',
 });
 
 // Each are for creation of tables

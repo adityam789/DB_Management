@@ -1,8 +1,8 @@
 const config = {
-    user : 'root',
-    password: 'shubham1',
-    server: 'localhost',
-    database: 'Events',
+    host            : process.env.DB_HOST || "localhost",
+    user            : process.env.DB_USER || "root",
+    password        : process.env.DB_PASS || 'shubham1',
+    database        : process.env.DB_NAME || 'Events',
     options: {
         trustedConnection: true,
         enableArithAort: true,
@@ -11,3 +11,4 @@ const config = {
 }
 
 module.exports = config;
+
