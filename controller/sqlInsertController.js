@@ -14,10 +14,7 @@ const query1 = `CREATE TABLE IF NOT EXISTS guests (guestid INT NOT NULL PRIMARY 
 const query2 =
 `CREATE TABLE IF NOT EXISTS Stages ( StageID int NOT NULL PRIMARY KEY,  DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,UserCreated varchar(255) NOT NULL,  DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,UserModified varchar(255) NOT NULL,Name varchar(255) NOT NULL,Date date NOT NULL,  Time time NOT NULL,DurationHours int NOT NULL, DurationMinutes int NOT NULL,Description varchar(255) NOT NULL);`;
 
-const query3 = `CREATE TABLE IF NOT EXISTS Schedule (ScheduleID int NOT NULL PRIMARY KEY, DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-  UserCreated varchar(255) NOT NULL, DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL, Stage int NOT NULL, 
-  Name varchar(255) NOT NULL, Description varchar(255) NOT NULL, StartTime time NOT NULL, EndTime time NOT NULL, ReportingTime time NOT NULL, 
-  FOREIGN KEY (Stage) REFERENCES Stages(StageID));`;
+const query3 = `CREATE TABLE IF NOT EXISTS Schedule (ScheduleID int NOT NULL PRIMARY KEY, DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserCreated varchar(255) NOT NULL, DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL, Stage int NOT NULL, Name varchar(255) NOT NULL, Description varchar(255) NOT NULL, StartTime time NOT NULL, EndTime time NOT NULL, ReportingTime time NOT NULL, FOREIGN KEY (Stage) REFERENCES Stages(StageID));`;
 
 const query4 = `CREATE TABLE IF NOT EXISTS ArtistSchedule ( ID int NOT NULL AUTO_INCREMENT PRIMARY KEY, DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserCreated varchar(255) NOT NULL, DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL, ScheduleID int NOT NULL, ArtistID int NOT NULL, FOREIGN KEY (ScheduleID) REFERENCES Schedule(ScheduleID), FOREIGN KEY (ArtistID) REFERENCES Guests(GuestID));`;
 
