@@ -6,12 +6,17 @@ var pool = mysql.createPool({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASS || "shubham1",
   database: process.env.DB_NAME || "Events",
+  ssl  : {
+    // DO NOT DO THIS
+    // set up your ca correctly to trust the connection
+    rejectUnauthorized: false
+  }
 });
 
 // Each are for creation of tables
 const query1 = `CREATE TABLE IF NOT EXISTS guests (guestid INT NOT NULL PRIMARY KEY, datecreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, usercreated VARCHAR(255) NOT NULL, datemodified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, usermodified VARCHAR(255) NOT NULL,  firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, about VARCHAR(255) NOT NULL, role VARCHAR(255) NOT NULL, organization VARCHAR(255) NOT NULL,  timezone VARCHAR(255) NOT NULL);`;
 
-const query2 = `CREATE TABLE IF NOT EXISTS Stages ( StageID int NOT NULL PRIMARY KEY,  DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,UserCreated varchar(255) NOT NULL,  DateModified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,UserModified varchar(255) NOT NULL,Name varchar(255) NOT NULL,Date date NOT NULL,  Time time NOT NULL,DurationHours int NOT NULL, DurationMinutes int NOT NULL,Description varchar(255) NOT NULL);`;
+const query2 = `CREATE TABLE IF NOT EXISTS Stages ( StageID int NOT NULL PRIMARY KEY,  DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UserCreated varchar(255) NOT NULL, datemodified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, UserModified varchar(255) NOT NULL, Name varchar(255) NOT NULL,Date date NOT NULL,  Time time NOT NULL,DurationHours int NOT NULL, DurationMinutes int NOT NULL,Description varchar(255) NOT NULL);`;
 
 const query3 = `CREATE TABLE IF NOT EXISTS schedule (scheduleid INT NOT NULL PRIMARY KEY, datecreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP, usercreated VARCHAR(255) NOT NULL, datemodified TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, usermodified VARCHAR(255) NOT NULL, stage INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, starttime TIME NOT NULL, endtime TIME NOT NULL, reportingtime TIME NOT NULL, FOREIGN KEY (stage) REFERENCES stages(stageid));`;
 
