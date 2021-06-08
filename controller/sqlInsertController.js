@@ -6,11 +6,6 @@ var pool = mysql.createPool({
   user: process.env.DB_USER || "root",
   password: process.env.DB_PASS || "shubham1",
   database: process.env.DB_NAME || "Events",
-  ssl  : {
-    // DO NOT DO THIS
-    // set up your ca correctly to trust the connection
-    rejectUnauthorized: false
-  }
 });
 
 // Each are for creation of tables

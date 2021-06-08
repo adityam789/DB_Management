@@ -8,11 +8,6 @@ const config = {
         enableArithAort: true,
     },
     port: 3306,
-    ssl  : {
-        // DO NOT DO THIS
-        // set up your ca correctly to trust the connection
-        rejectUnauthorized: false
-    }
 }
 
 module.exports = config;
