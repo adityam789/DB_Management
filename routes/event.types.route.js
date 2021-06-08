@@ -2,6 +2,7 @@ const db = require("../DBConfig/eventModel")
 const { Op } = require("sequelize");
 const express = require("express");
 const router = express.Router();
+const tokenHandler = require('../tokenAuth/token');
 
 let ExcelData = require('../DataFiles/excelData');
 
@@ -16,6 +17,9 @@ let ExcelData = require('../DataFiles/excelData');
 db.sync();
 
 let routes = (app) => {
+
+    router.use(tokenHandler.tokenMiddleware)
+
     //TODO: Get db.length
     router.get("/pgLength", async(request, response) => {
         response.json(200);
@@ -90,16 +94,49 @@ let routes = (app) => {
 
     // softDelete an eventType
     router.delete("", async (request, response) => {
-        if(!request.query.name) { console.log("Request Query doesn't have name parameter"); response.send("Request Query doesn't have name parameter"); }
-        await db.models.Events.update(
-        { isDeleted: 1 },
-        {
-            where: {
-            EventTypeName: request.query.name,
-            },
+        if(!request.query.name && !request.query.id) { console.log("Request Query doesn't have name parameter"); response.send("Request Query doesn't have name parameter"); }
+        if(request.query.name){
+            await db.models.Events.update(
+            { isDeleted: 1 },
+            {
+                where: {
+                    EventTypeName: request.query.name,
+                },
+            }
+            );
+            response.json("Done Boss, softDeleted");
         }
-        );
-        response.json("Done Boss, softDeleted");
+        else{
+            await db.models.Events.update(
+                { isDeleted: 1 },
+                {
+                    where: {
+                        id: request.query.id,
+                    },
+                }
+            );
+            response.json("Done Boss, softDeleted");
+        }
+    });
+
+    // Update
+    router.post("/update", async (request, response) => {
+        // console.log(request.body.name)
+        // if(!request.body.name || !request.body.state || !request.body.isDeleted || !request.body.toEdit) { console.log("Request Body doesn't have parameters huh"); response.json("Request Body doesn't have name parameter"); }
+        // else{
+            await db.models.Events.update(
+                { isDeleted: request.body.isDeleted,
+                EventTypeName: request.body.name,
+                eventState: request.body.state,  
+                },
+                {
+                    where: {
+                        EventTypeName: request.body.toEdit,
+                    },
+                }
+            );
+            response.json("Done Boss, Updated");
+        //}
     });
 
     router.post("/ExcelData", async (request, response) => {

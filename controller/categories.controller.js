@@ -134,11 +134,21 @@ const getCategories = async (request, response) => {
 };
 
 const deleteCategories = async (req, res) => {
-    if(!req.query.name) { console.log("Request Query doesn't have name parameter"); res.send("Request Query doesn't have name parameter"); }
-    else{
+    if(!req.query.name && !req.query.id) { console.log("Request Query doesn't have name parameter"); res.send("Request Query doesn't have name parameter"); }
+    else if(req.query.name){
         pool.getConnection(function(error, connection) {
             if(error) throw error;
             connection.query('UPDATE `categories` set `isDeleted` = ? where `CategoryName` = ?',[1, req.query.name] ,function (error, results, fields){
+                if(error) throw error
+                connection.release()
+                res.json(results.message)
+            })
+        })
+    }
+    else{
+        pool.getConnection(function(error, connection) {
+            if(error) throw error;
+            connection.query('UPDATE `categories` set `isDeleted` = ? where `ID` = ?',[1, req.query.id] ,function (error, results, fields){
                 if(error) throw error
                 connection.release()
                 res.json(results.message)
@@ -161,6 +171,18 @@ const hardDeleteCategories = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    if(!req.body.name || !req.body.isDeleted || !req.body.toEdit) { console.log("Request body doesn't have name parameter"); res.send("Request body doesn't have name parameter"); }
+    pool.getConnection(function(error, connection) {
+        if(error) throw error;
+        connection.query('UPDATE `categories` set `isDeleted` = ?, `CategoryName` = ? where `CategoryName` = ?',[req.body.isDeleted, req.body.name, req.body.toEdit] ,function (error, results, fields){
+            if(error) throw error
+            connection.release()
+            res.json(results.message)
+        })
+    })
+}
+
 const insertCategory = async (req, res) => {
     if(!req.query.name) { console.log("Request Query doesn't have name parameter"); res.send("Request Query doesn't have name parameter"); }
     else{
@@ -175,4 +197,4 @@ const insertCategory = async (req, res) => {
     }    
 }
 
-module.exports = { insertCategories , getCategories, getLength, insertCategory, deleteCategories, hardDeleteCategories };
+module.exports = { insertCategories , getCategories, getLength, insertCategory, deleteCategories, hardDeleteCategories, update };

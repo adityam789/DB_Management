@@ -17,15 +17,36 @@ global.__basedir = __dirname;
 var express = require("express");
 var cors = require("cors");
 var app = express();
+
+// const options = {
+//   definition: {
+//     // openapi: '3.0.0',
+//     info: {
+//       title: 'Well Hello There',
+//       version: '1.0.0',
+//     },
+//   },
+//   apis: ['./routes/*.js'],
+// };
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// const swaggerJSDoc = require('swagger-jsdoc');
+// const swaggerSpec = swaggerJSDoc(options);
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+const tokenHandler = require('./tokenAuth/token');
 var router = express.Router();
 const evokeRoutes = require("./routes/upload.route");
 const evokeEventRoutes = require("./routes/event.types.route");
 const evokeCategoriesRoutes = require('./routes/categories.route');
+const evokeLoginRoutes = require('./routes/login.route');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use("/api", router);
+
+// router.use(tokenHandler.tokenMiddleware)
 
 evokeRoutes(app);
 
@@ -33,24 +54,23 @@ evokeEventRoutes(app);
 
 evokeCategoriesRoutes(app);
 
-router.use((request, response, next) => {
-  console.log("middleware");
-  next();
-});
+evokeLoginRoutes(app)
+
+// router.use((request, response, next) => {
+//   token = request.headers.authorization
+//   console.log(token)
+//   jwt.verify(token, b1, function(err, decoded) {
+//     if(err){
+//       throw err
+//     }
+//     else{
+//       console.log(decoded)
+//       console.log("middleware");
+//       next();
+//     }
+//   });
+// });
 
 var port = process.env.PORT || 8090;
 app.listen(port);
 console.log("Event API is runnning at " + port);
-
-// Handle error
-// app.use((req, res, next) => {
-//    setImmediate(() => {
-//      next(new Error('Error occured'));
-//    });
-//  });
- 
-//  app.use(function (err, req, res, next) {
-//    console.error(err.message);
-//    if (!err.statusCode) err.statusCode = 500;
-//    res.status(err.statusCode).send(err.message);
-//  });

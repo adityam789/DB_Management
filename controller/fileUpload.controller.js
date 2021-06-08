@@ -122,6 +122,7 @@ const downloadFiles = (req, res) => {
         });
       }
     });
+    console.log("done")
 };
 
 module.exports = { uploadFile, downloadFiles, getFilesList };

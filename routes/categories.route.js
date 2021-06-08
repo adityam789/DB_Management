@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const tokenHandler = require('../tokenAuth/token');
 
 const controller = require('../controller/categories.controller');
 
 let routes = (app) => {
+
+    router.use(tokenHandler.tokenMiddleware)
 
     router.get("/length", controller.getLength)
 
@@ -16,6 +19,8 @@ let routes = (app) => {
     router.delete("", controller.deleteCategories)
 
     router.delete("/hard", controller.hardDeleteCategories)
+
+    router.post("/update", controller.update)
 
     app.use("/categories", router);
     
