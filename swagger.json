@@ -1,0 +1,491 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    { "url": "http://localhost:8090", "description": "", "variables": {} }
+  ],
+  "info": {
+    "version": "b70fbab3-4823-4c96-aac2-8b2496327222",
+    "title": "Event APIs",
+    "description": "",
+    "termsOfService": "",
+    "contact": {},
+    "license": { "name": "" }
+  },
+  "paths": {
+    "/categories": {
+      "post": {
+        "summary": "Add category",
+        "operationId": "Addcategory",
+        "parameters": [{ "$ref": "#/components/parameters/name" }],
+        "responses": {
+          "200": {
+            "description": "Add category",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": { "$ref": "#/components/schemas/200" },
+                "example": {
+                  "fieldCount": 0,
+                  "affectedRows": 1,
+                  "insertId": 38,
+                  "serverStatus": 2,
+                  "warningCount": 0,
+                  "message": "",
+                  "protocol41": true,
+                  "changedRows": 0
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Categories"]
+      },
+      "get": {
+        "summary": "Get Categories",
+        "operationId": "GetCategories",
+        "parameters": [
+          { "$ref": "#/components/parameters/search" },
+          { "$ref": "#/components/parameters/page" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Categories",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/200" }
+                },
+                "example": [
+                  { "ID": 1, "CategoryName": "Activity", "isDeleted": 0 },
+                  {
+                    "ID": 2,
+                    "CategoryName": "Audio Visual Equipment",
+                    "isDeleted": 0
+                  },
+                  { "ID": 3, "CategoryName": "Cake", "isDeleted": 0 },
+                  { "ID": 4, "CategoryName": "Catering", "isDeleted": 0 },
+                  {
+                    "ID": 5,
+                    "CategoryName": "Costumes and Clothes",
+                    "isDeleted": 0
+                  },
+                  {"....":""},
+                  { "ID": 34, "CategoryName": "Venue", "isDeleted": 0 }
+                ]
+              }
+            }
+          }
+        },
+        "tags": ["Categories"]
+      },
+      "delete": {
+        "summary": "Delete Category",
+        "operationId": "DeleteCategory",
+        "parameters": [
+          { "$ref": "#/components/parameters/id" },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "string", "example": "Dance Battle" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Category",
+            "content": { "application/json; charset=utf-8": { "schema": {} } }
+          }
+        },
+        "tags": ["Categories"]
+      }
+    },
+    "/categories/addAll": {
+      "post": {
+        "summary": "Categories Data",
+        "operationId": "CategoriesData",
+        "parameters": [],
+        "responses": { "200": { "description": "", "headers": {} } },
+        "tags": ["Categories"]
+      }
+    },
+    "/categories/length": {
+      "get": {
+        "summary": "Database size",
+        "operationId": "Databasesize",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Database size",
+            "content": { "application/json; charset=utf-8": { "schema": {} } }
+          }
+        },
+        "tags": ["Categories"]
+      }
+    },
+    "/categories/hard": {
+      "delete": {
+        "summary": "Hard Delete Category",
+        "operationId": "HardDeleteCategory",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "string", "example": "Dance Battle" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hard Delete Category",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": { "$ref": "#/components/schemas/200" },
+                "example": {
+                  "fieldCount": 0,
+                  "affectedRows": 1,
+                  "insertId": 0,
+                  "serverStatus": 34,
+                  "warningCount": 0,
+                  "message": "",
+                  "protocol41": true,
+                  "changedRows": 0
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Categories"]
+      }
+    },
+    "/events/ExcelData": {
+      "post": {
+        "summary": "Events Data",
+        "operationId": "EventsData",
+        "parameters": [],
+        "responses": { "200": { "description": "", "headers": {} } },
+        "tags": ["Events"]
+      }
+    },
+    "/events": {
+      "post": {
+        "summary": "Add Event",
+        "operationId": "AddEvent",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "string", "example": "Shubham's Party" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add Event",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": { "$ref": "#/components/schemas/200" },
+                "example": {
+                  "eventState": true,
+                  "isDeleted": 0,
+                  "id": 382,
+                  "EventTypeName": "Shubham's Party",
+                  "updatedAt": "2021-06-04T07:56:55.149Z",
+                  "createdAt": "2021-06-04T07:56:55.149Z"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Events"]
+      },
+      "get": {
+        "summary": "Get Events",
+        "operationId": "GetEvents",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "string", "example": "Club Event" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Events",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": { "$ref": "#/components/schemas/200" },
+                "example": {
+                  "count": 381,
+                  "rows": [
+                    {
+                      "id": 1,
+                      "EventTypeName": "Alumni Reunion",
+                      "eventState": true,
+                      "isDeleted": 0,
+                      "createdAt": "2021-06-03T10:41:28.000Z",
+                      "updatedAt": "2021-06-03T10:41:28.000Z"
+                    },
+                    {
+                      "id": 2,
+                      "EventTypeName": "After School Classes",
+                      "eventState": true,
+                      "isDeleted": 0,
+                      "createdAt": "2021-06-03T10:41:28.000Z",
+                      "updatedAt": "2021-06-03T10:41:28.000Z"
+                    },
+                    {
+                      "id": 3,
+                      "EventTypeName": "1st Birthday Party",
+                      "eventState": true,
+                      "isDeleted": 0,
+                      "createdAt": "2021-06-03T10:41:28.000Z",
+                      "updatedAt": "2021-06-03T10:41:28.000Z"
+                    },
+                    {"....":""},
+                    {
+                      "id": 382,
+                      "EventTypeName": "Shubham's Party",
+                      "eventState": true,
+                      "isDeleted": 0,
+                      "createdAt": "2021-06-04T07:56:55.000Z",
+                      "updatedAt": "2021-06-04T07:56:55.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Events"]
+      },
+      "delete": {
+        "summary": "Delete Event",
+        "operationId": "DeleteEvent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Event",
+            "content": { "application/json; charset=utf-8": { "schema": {} } }
+          }
+        },
+        "tags": ["Events"]
+      }
+    },
+    "/events/pgLength": {
+      "get": {
+        "summary": "Database Size",
+        "operationId": "DatabaseSize",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Database Size",
+            "content": { "application/json; charset=utf-8": { "schema": {} } }
+          }
+        },
+        "tags": ["Events"]
+      }
+    },
+    "/events/hard": {
+      "delete": {
+        "summary": "Hard Delete Event",
+        "operationId": "HardDeleteEvent",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "schema": { "type": "string", "example": "Shubham's Party" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hard Delete Event",
+            "content": { "application/json; charset=utf-8": { "schema": {} } }
+          }
+        },
+        "tags": ["Events"]
+      }
+    },
+    "/upload-file": {
+      "post": {
+        "summary": "Upload Excel File",
+        "operationId": "UploadExcelFile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Upload Excel File",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": { "$ref": "#/components/schemas/200" },
+                "example": {
+                  "message": "File uploaded successfully: schedule_template.xlsx"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": { "type": "string", "format": "binary" }
+                }
+              },
+              "example": [
+                {
+                  "key": "file",
+                  "description": "The File to upload which has the all schedule details",
+                  "type": "file",
+                  "src": "/C:/Users/adity/Dropbox/My PC (LAPTOP-3VGDKNQI)/Desktop/schedule_template.xlsx"
+                }
+              ]
+            }
+          }
+        },
+        "tags": ["File Upload"]
+      }
+    },
+    "/files": {
+      "get": {
+        "summary": "Get Files List",
+        "operationId": "GetFilesList",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get Files List",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/200" }
+                },
+                "example": [
+                  {
+                    "name": "schedule_template.xlsx",
+                    "url": "http://localhost:8090/get-cfiles/schedule_template.xlsx"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "tags": ["File Upload"]
+      }
+    },
+    "/files/{name}": {
+      "get": {
+        "summary": "Download File",
+        "operationId": "DownloadFile",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": { "type": "string", "example": "schedule_template.xlsx" },
+            "description": "Name of the file to download from uploads"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download File",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "tags": ["File Upload"]
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "name": {
+        "name": "name",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": { "type": "string", "example": "Dance Battle" }
+      },
+      "search": {
+        "name": "search",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": { "type": "string", "example": "Signage" }
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": { "type": "number" }
+      },
+      "id": {
+        "name": "id",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "schema": { "type": "number" }
+      }
+    },
+    "schemas": {
+      "200": {
+        "type": "object",
+        "properties": {
+          "fieldCount": {},
+          "affectedRows": {
+            "type": "integer",
+            "description": "",
+            "default": 1
+          },
+          "insertId": { "type": "integer", "description": "", "default": 38 },
+          "serverStatus": {
+            "type": "integer",
+            "description": "",
+            "default": 2
+          },
+          "warningCount": {},
+          "message": {},
+          "protocol41": {
+            "type": "boolean",
+            "description": "",
+            "default": true
+          },
+          "changedRows": {}
+        }
+      }
+    }
+  },
+  "security": [],
+  "tags": [],
+  "externalDocs": { "url": "", "description": "" },
+  "warnings": []
+}
